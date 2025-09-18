@@ -1,51 +1,56 @@
-const { Client } = require('@modelcontextprotocol/sdk/client/index.js');
-const { StdioClientTransport } = require('@modelcontextprotocol/sdk/client/stdio.js');
+const twilioWhatsAppService = require('./twilioWhatsAppService');
 
 class MCPNotificationService {
   constructor() {
-    this.isConnected = false;
-    console.log('📱 MCP Notification Service initialized (mock mode)');
+    console.log('📱 Notification Service initialized (mock mode)');
   }
 
   async sendCheckinNotification(participant, checkin) {
-    try {
-      // Simular tentativa de conexão MCP
-      console.log('🔄 Attempting MCP connection...');
-      
-      // Como mcp-server-notifications não existe, usar fallback
-      return await this.sendFallback(participant, checkin);
-      
-    } catch (error) {
-      console.error('Notification error:', error);
-      return await this.sendFallback(participant, checkin);
-    }
+    const smsResult = await this.sendSMSNotification(participant, checkin);
+    const whatsappResult = await this.sendWhatsAppNotification(participant, checkin);
+    
+    return {
+      sms: smsResult,
+      whatsapp: whatsappResult
+    };
   }
 
-  async sendFallback(participant, checkin) {
+  async sendSMSNotification(participant, checkin) {
     const message = this.buildCheckinMessage(participant, checkin);
     const participantName = participant.name || 'Participante';
     
-    console.log(`📝 Mock MCP notification for ${participantName}:`);
+    console.log(`📝 Mock SMS for ${participantName}:`);
     console.log(message);
     
-    // Simular diferentes tipos de notificação
     if (participant.phone) {
       console.log(`📱 [MOCK SMS] Would send to: ${participant.phone}`);
       return {
         success: true,
-        method: 'MCP_SMS_MOCK',
+        method: 'SMS_MOCK',
         phone: participant.phone,
-        message: message
+        message: message,
+        participant: participantName
       };
     }
     
-    console.log(`🔔 [MOCK PUSH] Would send push notification`);
     return {
       success: true,
-      method: 'MCP_PUSH_MOCK',
+      method: 'SMS_MOCK',
       message: message,
       participant: participantName
     };
+  }
+
+  async sendWhatsAppNotification(participant, checkin) {
+    if (!participant.phone) {
+      return {
+        success: false,
+        method: 'WHATSAPP_SKIP',
+        reason: 'No phone number'
+      };
+    }
+
+    return await twilioWhatsAppService.sendWelcomeMessage(participant, checkin);
   }
 
   formatPhoneNumber(phone) {
@@ -91,14 +96,6 @@ Tenha um ótimo evento! 🚀`;
     };
     
     return messages[participantType] || messages.GUEST;
-  }
-
-  async disconnect() {
-    if (this.client && this.isConnected) {
-      await this.client.close();
-      this.isConnected = false;
-      console.log('🔌 Disconnected from MCP server');
-    }
   }
 }
 
