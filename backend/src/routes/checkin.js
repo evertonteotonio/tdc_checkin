@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const { dynamodb } = require('../config/aws');
 const faceRecognitionService = require('../services/faceRecognition');
 const llmService = require('../services/llmService');
-const mcpNotificationService = require('../services/mcpNotificationService');
+const twilioNotificationService = require('../services/twilioNotificationService');
 
 const router = express.Router();
 
@@ -76,8 +76,8 @@ router.post('/face', async (req, res) => {
     // Gerar saudação personalizada com LLM
     const greeting = await llmService.generateGreeting(participant);
 
-    // Enviar notificação push/SMS via MCP
-    const notification = await mcpNotificationService.sendCheckinNotification(participant, checkinData);
+    // Enviar notificação WhatsApp via Twilio
+    const notification = await twilioNotificationService.sendCheckinNotification(participant, checkinData);
 
     // Remover dados sensíveis
     const { faceId, imageKey, ...safeParticipant } = participant;
@@ -149,8 +149,8 @@ router.post('/manual', async (req, res) => {
     // Gerar saudação
     const greeting = await llmService.generateGreeting(participant);
 
-    // Enviar notificação push/SMS via MCP
-    const notification = await mcpNotificationService.sendCheckinNotification(participant, checkinData);
+    // Enviar notificação WhatsApp via Twilio
+    const notification = await twilioNotificationService.sendCheckinNotification(participant, checkinData);
 
     const { faceId, imageKey, ...safeParticipant } = participant;
 
