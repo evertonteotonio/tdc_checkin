@@ -1,0 +1,15 @@
+{
+  "name": "event-checkin-system",
+  "version": "1.0.0",
+  "description": "Sistema de checkin com reconhecimento facial para eventos",
+  "scripts": {
+    "dev": "./scripts/start-dev.sh",
+    "setup": "./scripts/dev-setup.sh",
+    "setup-aws": "./scripts/setup-aws.sh",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:dev": "cd frontend && npm run dev"
+  },
+  "keywords": ["event", "checkin", "facial-recognition", "aws"],
+  "author": "",
+  "license": "MIT"
+}
