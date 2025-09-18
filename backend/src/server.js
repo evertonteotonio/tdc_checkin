@@ -6,6 +6,7 @@ const multer = require('multer');
 const participantRoutes = require('./routes/participants');
 const checkinRoutes = require('./routes/checkin');
 const adminRoutes = require('./routes/admin');
+const conversationalRoutes = require('./routes/conversationalRegistration');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -38,6 +39,7 @@ const upload = multer({
 app.use('/api/participants', upload.single('photo'), participantRoutes);
 app.use('/api/checkin', upload.single('photo'), checkinRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/chat-registration', conversationalRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
