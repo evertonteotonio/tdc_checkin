@@ -1,0 +1,31 @@
+{
+  "amazonq.workspace": {
+    "enabled": true,
+    "projectContext": {
+      "include": [
+        "frontend/src/**/*.{js,jsx,ts,tsx}",
+        "backend/src/**/*.js",
+        "*.md",
+        "package.json",
+        ".env.example"
+      ],
+      "exclude": [
+        "node_modules/**",
+        "dist/**",
+        "build/**",
+        ".git/**",
+        "*.log"
+      ]
+    },
+    "codeGeneration": {
+      "followProjectPatterns": true,
+      "respectESLintRules": true,
+      "useTypeScript": false
+    },
+    "suggestions": {
+      "enableInlineCompletion": true,
+      "enableCodeReview": true,
+      "enableSecurityScanning": true
+    }
+  }
+}

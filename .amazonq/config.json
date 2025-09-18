@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "project": {
+    "name": "Event Checkin System",
+    "description": "Sistema de check-in inteligente para eventos com reconhecimento facial e assistência por IA",
+    "type": "fullstack",
+    "technologies": ["React", "Node.js", "AWS", "DynamoDB", "S3", "Rekognition", "Bedrock"]
+  },
+  "codebase": {
+    "structure": {
+      "frontend": "React + Vite + TailwindCSS",
+      "backend": "Node.js + Express + AWS SDK",
+      "database": "DynamoDB",
+      "storage": "S3",
+      "ai_services": ["AWS Rekognition", "AWS Bedrock"]
+    },
+    "entry_points": [
+      "frontend/src/main.jsx",
+      "backend/src/server.js"
+    ],
+    "key_directories": [
+      "frontend/src/components",
+      "frontend/src/pages", 
+      "backend/src/routes",
+      "backend/src/services",
+      "backend/src/utils"
+    ]
+  },
+  "development": {
+    "setup_commands": [
+      "npm run setup",
+      "npm run dev"
+    ],
+    "test_commands": [
+      "npm test",
+      "npm run test:coverage"
+    ],
+    "ports": {
+      "frontend": 5173,
+      "backend": 3001
+    }
+  },
+  "aws": {
+    "profile": "tdc",
+    "region": "us-east-1",
+    "services": [
+      "DynamoDB",
+      "S3", 
+      "Rekognition",
+      "Bedrock"
+    ]
+  }
+}
