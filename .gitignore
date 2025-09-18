@@ -99,3 +99,9 @@ temp/
 
 # MacOS
 .DS_Store
+# Arquivos específicos do projeto
+backend/uploads/
+frontend/dist/
+
+# Arquivos de conversa/notas
+conversa.txt
