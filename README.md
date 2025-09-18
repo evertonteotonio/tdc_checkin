@@ -2,6 +2,8 @@
 
 Sistema de check-in inteligente para eventos com reconhecimento facial e assistência por IA.
 
+![Screenshot do Sistema](screenshot.png)
+
 ## 🚀 Tecnologias
 
 - **Frontend**: React + Vite + TailwindCSS
@@ -45,15 +47,33 @@ event-checkin/
 └── README.md
 ```
 
-## 🔧 Comandos Disponíveis
+## 🧪 Testes
 
+### Executar Testes
 ```bash
-npm run dev              # Iniciar desenvolvimento completo
-npm run setup           # Setup inicial do projeto
-npm run setup-aws      # Configurar apenas recursos AWS
-npm run backend:dev     # Iniciar apenas backend
-npm run frontend:dev    # Iniciar apenas frontend
+# Todos os testes
+npm test
+
+# Testes específicos
+npm test -- tests/simple.test.js
+
+# Testes com coverage
+npm run test:coverage
+
+# Testes em modo watch
+npm run test:watch
 ```
+
+### Tipos de Teste
+- **Unidade**: Serviços individuais (LLM, Face Recognition)
+- **Integração**: APIs e AWS Services (mocked)
+- **Validação**: Estruturas de dados e utilitários
+
+### Coverage
+- Environment setup ✅
+- LLM Service mocks ✅
+- Data validation ✅
+- AWS SDK integration ✅
 
 ## 🎯 Funcionalidades
 
@@ -73,6 +93,8 @@ npm run frontend:dev    # Iniciar apenas frontend
 - [ ] Deploy para AWS
 
 ## 🏗️ Arquitetura
+
+![Diagrama de Arquitetura](MermaidChart.png)
 
 ```
 Frontend (React) → API Gateway → Lambda Functions

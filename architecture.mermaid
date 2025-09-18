@@ -1,0 +1,117 @@
+graph TB
+    %% Users
+    USER[👤 Usuário]
+    STAFF[👥 Staff]
+    ADMIN_USER[👨‍💼 Admin]
+
+    %% Frontend Layer
+    subgraph "Frontend (React + Vite + TailwindCSS)"
+        HOME[🏠 Home]
+        REG[📝 Cadastro Tradicional]
+        CHAT[💬 Cadastro Conversacional]
+        CHECKIN[📷 Check-in]
+        QR[🔍 Verificação QR]
+        ADMIN[📊 Dashboard Admin]
+    end
+
+    %% Backend Layer
+    subgraph "Backend (Node.js + Express)"
+        API[🌐 API Gateway]
+        
+        subgraph "Rotas REST"
+            R1["/participants"]
+            R2["/checkin"]
+            R3["/admin"]
+            R4["/chat-registration"]
+        end
+        
+        subgraph "Serviços"
+            FACE[👁️ Face Recognition]
+            LLM[🤖 LLM Service]
+            AGENT[💭 Conversational Agent]
+        end
+    end
+
+    %% AWS Services
+    subgraph "AWS Cloud"
+        subgraph "Storage"
+            S3[📦 S3 Bucket<br/>event-checkin-photos]
+            DDB[🗄️ DynamoDB]
+        end
+        
+        subgraph "AI/ML"
+            REK[👁️ AWS Rekognition<br/>event-faces-tdc]
+            BED[🧠 AWS Bedrock<br/>Claude 3 Haiku]
+        end
+        
+        subgraph "Tables"
+            T1[(📋 event-participants)]
+            T2[(✅ event-checkins)]
+        end
+    end
+
+    %% User Flows
+    USER --> HOME
+    USER --> REG
+    USER --> CHAT
+    USER --> CHECKIN
+    STAFF --> QR
+    ADMIN_USER --> ADMIN
+
+    %% Frontend to Backend
+    HOME --> API
+    REG --> R1
+    CHAT --> R4
+    CHECKIN --> R2
+    QR --> API
+    ADMIN --> R3
+
+    %% Backend Internal
+    API --> R1
+    API --> R2
+    API --> R3
+    API --> R4
+    
+    R1 --> FACE
+    R2 --> FACE
+    R2 --> LLM
+    R4 --> AGENT
+    R4 --> FACE
+    
+    AGENT --> BED
+    LLM --> BED
+    FACE --> REK
+    FACE --> S3
+
+    %% Data Storage
+    R1 --> DDB
+    R2 --> DDB
+    R3 --> DDB
+    DDB --> T1
+    DDB --> T2
+
+    %% Data Flow Labels
+    REG -.->|"Foto + Dados"| R1
+    CHAT -.->|"IA Conversacional"| R4
+    CHECKIN -.->|"Reconhecimento Facial"| R2
+    QR -.->|"Validação QR Code"| API
+    
+    R1 -.->|"Indexar Face"| REK
+    R1 -.->|"Upload Foto"| S3
+    R2 -.->|"Buscar Face"| REK
+    R2 -.->|"Gerar Saudação"| BED
+    R4 -.->|"Chat IA"| BED
+
+    %% Styling
+    classDef user fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef frontend fill:#e8f5e8,stroke:#4caf50,stroke-width:2px
+    classDef backend fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef aws fill:#fce4ec,stroke:#e91e63,stroke-width:2px
+    classDef storage fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    classDef ai fill:#e1f5fe,stroke:#00bcd4,stroke-width:2px
+    
+    class USER,STAFF,ADMIN_USER user
+    class HOME,REG,CHAT,CHECKIN,QR,ADMIN frontend
+    class API,R1,R2,R3,R4,FACE,LLM,AGENT backend
+    class S3,DDB,T1,T2 storage
+    class REK,BED ai

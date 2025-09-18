@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Home, UserPlus, Camera, Settings, QrCode } from 'lucide-react'
+import { Home, UserPlus, Camera, Settings, QrCode, MessageCircle } from 'lucide-react'
 
 export function Navigation() {
   const location = useLocation()
@@ -38,6 +38,18 @@ export function Navigation() {
             >
               <UserPlus className="h-4 w-4" />
               <span>Cadastro</span>
+            </Link>
+            
+            <Link
+              to="/chat-register"
+              className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive('/chat-register') 
+                  ? 'bg-primary-100 text-primary-700' 
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+              }`}
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>Chat</span>
             </Link>
             
             <Link
